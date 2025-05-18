@@ -1,3 +1,17 @@
+### https://github.com/Cyfrin/foundry-defi-stablecoin-cu
+
+# What we'll going to build
+
+A stablecoin that is:
+1. - Relative Stability: Anchored or Pegged --> $ 1 USD
+    1. Chainlink Price Feed
+    2. Set a function to exchange ETH & BTC -> $$
+2. - Stability Mechanism (minting): Algorithmic (Decentralized)
+    1. People can only mint the stablecoin with enough collateral
+3. - Collateralization Mechanism: Exogenous (Crypto)
+    1. wETH
+    2. wBTC (is centrilized?... another conversation)
+
 ## Foundry
 
 **Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
