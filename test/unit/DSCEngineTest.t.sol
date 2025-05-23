@@ -280,7 +280,10 @@ contract DSCEngineTest is Test {
         public
         depositedCollateral
     {
-        uint256 amountToMint = 10000.1 ether; // Exceeds collateral value
+        // Exceeds max mount to mint according to HF
+        uint256 amountToMint = 1 +
+            dsce.getUSDValue(weth, AMOUNT_COLLATERAL) /
+            2;
 
         vm.startPrank(USER);
 
@@ -545,6 +548,22 @@ contract DSCEngineTest is Test {
             amountCollateralToRedeem,
             amountToBurn
         );
+        vm.stopPrank();
+    }
+
+    function testRevertsIfTriesToRedeemMoreThanBalance()
+        public
+        depositedCollateralAndMintedDsc
+    {
+        vm.startPrank(USER);
+        dsc.approve(address(dsce), AMOUNT_TO_MINT);
+        vm.expectRevert(
+            abi.encodeWithSelector(
+                DSCEngine.DSCEngine__NotEnoughCollateralToRedeem.selector,
+                AMOUNT_COLLATERAL
+            )
+        );
+        dsce.redeemCollateral(weth, AMOUNT_COLLATERAL + 1);
         vm.stopPrank();
     }
 

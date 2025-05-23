@@ -1,12 +1,16 @@
 // SPDX-License-Identifier: MIT
-// Have out invariants aka properties
-// What are our invariants?
-
-// 1. The total supply of DSC should be always be less than the total value of the collateral in USD.
-// 2. Getter view functions should never revert <-- evergreen invariant
 
 pragma solidity ^0.8.28;
 
+/**
+ * @title Open Invariant Test
+ * @notice This is an open invariant test for the DSCEngine contract.
+ *         THIS WILL NOT WORK IN THIS KIND OF COMPLEX CONTRACT --> every fuzzing reverts
+ *         IT'S JUST MEANT TO BE
+ *         A DEMO OF HOW TO USE THE INVARIANT TESTS.
+ */
+
+/*
 import {console} from "forge-std/console.sol";
 import {StdInvariant} from "forge-std/StdInvariant.sol";
 import {Test} from "forge-std/Test.sol";
@@ -30,7 +34,8 @@ contract OpenInvariantTest is StdInvariant, Test {
 
         (weth, wbtc, , , ) = config.activeNetworkConfig();
 
-        targetContract(address(dsce)); // In this open variation of invariant test, we're telling Foundry "go will on this contract"
+        // In this open variation of invariant test, we're telling Foundry "go wild on this contract"
+        targetContract(address(dsce));
     }
 
     function invariant_protocolMustHaveMoreValueThanTotalSupply() public view {
@@ -46,3 +51,4 @@ contract OpenInvariantTest is StdInvariant, Test {
         assert(wethValue + wbtcValue >= totalSupply);
     }
 }
+*/

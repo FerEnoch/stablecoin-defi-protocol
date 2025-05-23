@@ -29,6 +29,7 @@ import {DecentralizedStableCoin} from "./DecentralizedStableCoin.sol";
 import {ReentrancyGuard} from "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import {AggregatorV3Interface} from "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
+import {OracleLib} from "./libraries/OracleLib.sol";
 
 /**
  * @title DSCEngine
@@ -51,6 +52,11 @@ import {AggregatorV3Interface} from "@chainlink/contracts/src/v0.8/interfaces/Ag
  */
 contract DSCEngine is ReentrancyGuard {
     ///////////
+    // Types
+    ///////////
+    using OracleLib for AggregatorV3Interface;
+
+    ///////////
     // Errors
     ///////////
     error DSCEngine__NeedsMoreThanZero();
@@ -61,6 +67,7 @@ contract DSCEngine is ReentrancyGuard {
     error DSCEngine__MintDSCFailed();
     error DSCEngine__HealthFactorOk();
     error DSCEngine__HealthFactorNotImproved();
+    error DSCEngine__NotEnoughCollateralToRedeem(uint256 available);
 
     ///////////
     // state variables
@@ -394,6 +401,16 @@ contract DSCEngine is ReentrancyGuard {
         address tokenCollateralAddress,
         uint256 amountCollateral
     ) private {
+        uint256 userCollateralBalance = s_collateralDeposited[from][
+            tokenCollateralAddress
+        ];
+
+        if (userCollateralBalance < amountCollateral) {
+            revert DSCEngine__NotEnoughCollateralToRedeem(
+                userCollateralBalance
+            );
+        }
+
         s_collateralDeposited[from][tokenCollateralAddress] -= amountCollateral;
 
         emit CollateralRedeemed(
@@ -452,7 +469,7 @@ contract DSCEngine is ReentrancyGuard {
             s_priceFeeds[token]
         );
 
-        (, int256 price, , , ) = priceFeed.latestRoundData();
+        (, int256 price, , , ) = priceFeed.staleCheckLatestRoundData();
 
         // $100e18 USD Debt
         // 1 ETH = 2000 USD
@@ -523,7 +540,7 @@ contract DSCEngine is ReentrancyGuard {
             priceFeedAddress
         );
 
-        (, int256 price, , , ) = priceFeed.latestRoundData();
+        (, int256 price, , , ) = priceFeed.staleCheckLatestRoundData();
 
         uint256 priceWithDecimalPrecision = uint256(price) *
             ADDITIONAL_FEED_PRECISION;

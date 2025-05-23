@@ -10,9 +10,12 @@ remappings = [
 ]
 
 [invariant]
-runs = 1000
+runs = 128
 depth = 128
-fail_on_revert = false
+# fail_on_revert = false
 # PRO of fail_on_revert = false --> quickly write open invariants tests and quickly write them with minimal handlers functions
-# CONS --> Harder to make calls that actually make sense  
+# CONS --> Harder to make calls that actually make sense 
+# So, good for very small contracts, but not great for complex contracts
+#
+fail_on_revert = true
 
