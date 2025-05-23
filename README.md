@@ -1,16 +1,18 @@
+# Descentralized Stablecoin
+### This is part of the Smart Contracts Development course of Cyfrin Updraft
 ### https://github.com/Cyfrin/foundry-defi-stablecoin-cu
 
-# What we'll going to build
+## What is this repository?
+This repository contains the code for a decentralized stablecoin built using Foundry. The goal is to create a stablecoin that is pegged to the US dollar, using an algorithmic minting mechanism and collateralized by other cryptocurrencies.
 
-A stablecoin that is:
-1. - Relative Stability: Anchored or Pegged --> $ 1 USD
-    1. Chainlink Price Feed
-    2. Set a function to exchange ETH & BTC -> $$
-2. - Stability Mechanism (minting): Algorithmic (Decentralized)
-    1. People can only mint the stablecoin with enough collateral
-3. - Collateralization Mechanism: Exogenous (Crypto)
-    1. wETH
-    2. wBTC (is centrilized?... another conversation)
+## The Stablecoin design:
+1. *-* Relative Stability: Anchored or Pegged to $ 1 USD
+    - We're using Chainlink Price Feed.
+2. *-* Stability Mechanism (minting): Algorithmic (Decentralized)
+    - People can only mint the stablecoin with enough collateral
+3. *-* Collateralization Mechanism: Exogenous (Crypto)
+    - wETH
+    - wBTC
 
 ## Foundry
 
